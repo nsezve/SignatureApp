@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="contentSection">
+    <div class="grid-row align-items-center no-gutters">
+      <div class="grid-col-sm-6">
+        <div class="leftSection"> <img src="assets/images/-e-coffee.png" class="img-fluid" alt=""> </div>
+      </div>
+      <div class="grid-col-sm-6">
+        <div class="rightSection"> <img src="assets/images/-e-pen.png" alt="">
+          <h1>כניסה למערכת <br>
+            חתימה על מסמכים</h1>
+          <form #login="ngForm" (ngSubmit)="login.valid && onSubmit(login)">
+            <div *ngIf="step1 || step2" class="rtl">
+              <mat-radio-group aria-label="Select an option" [(ngModel)]="userService.selectedUser.idPassport"
+                name="idPassport">
+                <label><span class="gap-right">הזן מספר זיהוי / דרכון</span>
+                  <mat-radio-button value="1" [checked]="checked">ת”ז</mat-radio-button>
+                </label>
+                <label>
+                  <mat-radio-button value="2">דרכון</mat-radio-button>
+                </label>
+              </mat-radio-group>
+            </div>
+
+            <mat-form-field *ngIf="step1" class="example-full-width">
+              <input matInput #registationNumber="ngModel" [(ngModel)]="userService.selectedUser.registationNumber"
+                minlength="9" maxlength="9" name="registationNumber" placeholder="מספר בן 9 ספרות כולל ספרת ביקורת"
+                required>
+              <mat-icon matInput>error_outline</mat-icon>
+              <mat-error *ngIf="(registationNumber.touched && registationNumber.errors?.required)">
+                  שדה חובה
+              </mat-error>
+              <mat-error *ngIf="registationNumber.errors?.minlength">
+                אנא הזן מספר ת”ז תקין
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="step2 && login.submitted" class="example-full-width">
+              <input matInput #proposalNumber="ngModel" [(ngModel)]="userService.selectedUser.proposalNumber"
+                name="proposalNumber" placeholder="הזן מספר הצעה" required>
+              <mat-error *ngIf="(proposalNumber.touched && proposalNumber.errors?.required)">
+                  שדה חובה
+              </mat-error>
+            </mat-form-field>
+
+
+            <div *ngIf="step3 && login.submitted">
+              <p *ngIf="step3 && login.submitted" class="terms">לאחר אישורך ישלח אלייך קוד אימות לנייד הרשום<br>
+                במערכת הבנק. בכל בעיה יש לפנות למוקד השירות <br>
+                בטלפון 5727* </p>
+              <p *ngIf="step3 && login.submitted">
+                <mat-checkbox name="voiceVerification" [(ngModel)]="userService.selectedUser.voiceVerification">מעוניין
+                  בקבלת קוד אימות קולי בשיחה נכנסת</mat-checkbox>
+              </p>
+            </div>
+
+
+            <mat-form-field *ngIf="step4 && login.submitted" class="example-full-width">
+              <input  minlength="5" maxlength="5" matInput #otp="ngModel" [(ngModel)]="userService.selectedUser.otp" name="otp"
+                placeholder="קוד אימות" required>
+                <mat-icon matInput>error_outline</mat-icon>
+              <mat-error *ngIf="(otp.touched && otp.errors?.required)">
+                  שדה חובה
+              </mat-error>
+              <mat-error *ngIf="otp.errors?.minlength">
+                  אנא הזן קוד אימות תקין
+              </mat-error>
+            </mat-form-field>
+            <p *ngIf="step1 || step2" class="terms">לאחר אישורך ישלח אלייך קוד אימות לנייד הרשום במערכת הבנק. בכל בעיה
+              יש לפנות למוקד השירות בטלפון 5727*</p>
+            <p class="text-center"> <button type="submit" class="button"><i>{{buttonText}}</i></button></p>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
